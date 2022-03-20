@@ -14,8 +14,8 @@ from cloudshell.nvidia.onyx.cli.nvidia_command_modes import (
     DefaultCommandMode,
     EnableCommandMode,
 )
-from cloudshell.networking.cisco.sessions.console_ssh_session import ConsoleSSHSession
-from cloudshell.networking.cisco.sessions.console_telnet_session import (
+from cloudshell.nvidia.onyx.sessions.console_ssh_session import ConsoleSSHSession
+from cloudshell.nvidia.onyx.sessions.console_telnet_session import (
     ConsoleTelnetSession,
 )
 

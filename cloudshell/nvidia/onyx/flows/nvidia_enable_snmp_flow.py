@@ -34,9 +34,8 @@ class NvidiaEnableSnmpFlow(object):
         ) as session:
             with session.enter_mode(self._cli_handler.config_mode) as config_session:
                 snmp_actions = EnableDisableSnmpActions(config_session, self._logger)
-                current_snmp_config = snmp_actions.get_current_snmp_config()
-                if not snmp_actions.check_snmp_enabled(current_snmp_config):
-                    snmp_actions.enable_snmp()
+                # if not snmp_actions.check_snmp_enabled(current_snmp_config):
+                #     snmp_actions.enable_snmp(snmp_parameters.snmp_community)
                 if "3" in snmp_parameters.version:
                     current_snmp_user = snmp_actions.get_current_snmp_user()
                     if not snmp_actions.check_snmp_user_exists(current_snmp_user, snmp_parameters.snmp_user):
@@ -45,15 +44,18 @@ class NvidiaEnableSnmpFlow(object):
                         priv_protocol = (
                             snmp_parameters.snmp_private_key_protocol.lower()
                         )
-                        snmp_actions.enable_snmp_v3(
+                        snmp_actions.create_snmp_v3_user(
                             snmp_user=snmp_parameters.snmp_user,
                             snmp_password=snmp_parameters.snmp_password,
                             auth_protocol=snmp_parameters.snmp_auth_protocol.lower(),
                             priv_protocol=priv_protocol,
                             snmp_priv_key=snmp_parameters.snmp_private_key,
                         )
-                        snmp_actions.set_snmp_user_permissions(snmp_user=snmp_parameters.snmp_user)
+                        snmp_actions.enable_snmp_v3(snmp_user=snmp_parameters.snmp_user)
+                    else:
+                        return
                 else:
+                    current_snmp_config = snmp_actions.get_current_snmp_config()
                     if not snmp_actions.check_snmp_community_exists(current_snmp_config,
                                                                     snmp_parameters.snmp_community):
                         snmp_actions.create_snmp_community(
@@ -66,6 +68,7 @@ class NvidiaEnableSnmpFlow(object):
                                 snmp_parameters.snmp_community
                             )
                         )
+                        return
             self._logger.info("Start verification of SNMP config")
             with session.enter_mode(self._cli_handler.config_mode) as config_session:
                 # Reentering config mode to perform commit for IOS-XR

@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 import os
 import re
-from collections import OrderedDict
 
 from cloudshell.shell.flows.autoload.basic_flow import AbstractAutoloadFlow
 
