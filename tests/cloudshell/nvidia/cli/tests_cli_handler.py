@@ -9,10 +9,7 @@ from cloudshell.nvidia.onyx.cli.nvidia_command_modes import (
     EnableCommandMode,
 )
 
-try:
-    from mock import MagicMock, Mock, patch
-except ImportError:
-    from unittest.mock import MagicMock, Mock, patch
+from unittest.mock import MagicMock, Mock, patch
 
 
 class TestCiscoSystemActions(TestCase):
