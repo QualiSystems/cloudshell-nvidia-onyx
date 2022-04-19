@@ -2,6 +2,7 @@ from unittest import TestCase
 from unittest.mock import MagicMock, Mock, patch
 
 from cloudshell.cli.service.cli import CLI
+
 from cloudshell.nvidia.onyx.cli.nvidia_cli_handler import NvidiaCliHandler
 from cloudshell.nvidia.onyx.cli.nvidia_command_modes import (
     ConfigCommandMode,
@@ -10,7 +11,7 @@ from cloudshell.nvidia.onyx.cli.nvidia_command_modes import (
 )
 
 
-class TestCiscoSystemActions(TestCase):
+class TestMellanoxSystemActions(TestCase):
     def set_up(self):
         ConfigCommandMode.ENTER_CONFIG_RETRY_TIMEOUT = 0.5
         cli_conf = MagicMock()

@@ -9,6 +9,7 @@ from cloudshell.cli.session.session_exceptions import (
     CommandExecutionException,
     ExpectedSessionException,
 )
+
 from cloudshell.nvidia.onyx.command_templates import configuration
 
 

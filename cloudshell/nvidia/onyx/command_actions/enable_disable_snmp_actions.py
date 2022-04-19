@@ -4,6 +4,7 @@ import re
 from cloudshell.cli.command_template.command_template_executor import (
     CommandTemplateExecutor,
 )
+
 from cloudshell.nvidia.onyx.command_templates import enable_disable_snmp
 
 

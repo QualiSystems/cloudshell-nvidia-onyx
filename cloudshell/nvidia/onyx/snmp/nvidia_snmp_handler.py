@@ -1,11 +1,12 @@
 #!/usr/bin/python
 
-from cloudshell.nvidia.onyx.flows.nvidia_disable_snmp_flow import NvidiaDisableSnmpFlow
-from cloudshell.nvidia.onyx.flows.nvidia_enable_snmp_flow import NvidiaEnableSnmpFlow
 from cloudshell.snmp.snmp_configurator import (
     EnableDisableSnmpConfigurator,
     EnableDisableSnmpFlowInterface,
 )
+
+from cloudshell.nvidia.onyx.flows.nvidia_disable_snmp_flow import NvidiaDisableSnmpFlow
+from cloudshell.nvidia.onyx.flows.nvidia_enable_snmp_flow import NvidiaEnableSnmpFlow
 
 
 class NvidiaEnableDisableSnmpFlow(EnableDisableSnmpFlowInterface):

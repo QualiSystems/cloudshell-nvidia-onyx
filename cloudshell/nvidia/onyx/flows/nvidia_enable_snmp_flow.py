@@ -1,8 +1,9 @@
 #!/usr/bin/python
+from cloudshell.snmp.snmp_parameters import SNMPV3Parameters
+
 from cloudshell.nvidia.onyx.command_actions.enable_disable_snmp_actions import (
     EnableDisableSnmpActions,
 )
-from cloudshell.snmp.snmp_parameters import SNMPV3Parameters
 
 
 class NvidiaEnableSnmpFlow:
