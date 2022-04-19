@@ -35,9 +35,9 @@ class EnableDisableSnmpActions:
         """
         escaped_snmp_community = re.escape(snmp_community)
         if re.search(
-                fr"(Read-only\s+communities\S*(\s+\S+)*\s*\b{escaped_snmp_community}\b|"
-                fr"Read-write\s+communities\S*(\s+\S+)*\s*\b{escaped_snmp_community}\b)",
-                snmp_config,
+            fr"(Read-only\s+communities\S*(\s+\S+)*\s*\b{escaped_snmp_community}\b|"
+            fr"Read-write\s+communities\S*(\s+\S+)*\s*\b{escaped_snmp_community}\b)",
+            snmp_config,
         ):
             return True
 
@@ -52,8 +52,8 @@ class EnableDisableSnmpActions:
         :rtype: bool
         """
         if re.search(
-                fr"User\s+name\s+\b{snmp_user}\b",
-                snmp_config,
+            fr"User\s+name\s+\b{snmp_user}\b",
+            snmp_config,
         ):
             return True
 
@@ -68,8 +68,8 @@ class EnableDisableSnmpActions:
         :rtype: bool
         """
         if re.search(
-                r"SNMP\s*enabled\s*\S*\s*yes",
-                snmp_config,
+            r"SNMP\s*enabled\s*\S*\s*yes",
+            snmp_config,
         ):
             return True
 
@@ -105,33 +105,12 @@ class EnableDisableSnmpActions:
             error_map=error_map,
         ).execute_command()
 
-    # def enable_snmp(
-    #     self,
-    #     snmp_community,
-    #     action_map=None,
-    #     error_map=None,
-    # ):
-    #     """Enable SNMP on the device.
-    #
-    #     :param snmp_community: community name
-    #     :param action_map: actions will be taken during executing commands,
-    #         i.e. handles yes/no prompts
-    #     :param error_map: errors will be raised during executing commands,
-    #         i.e. handles Invalid Commands errors
-    #     """
-    #     return CommandTemplateExecutor(
-    #         cli_service=self._cli_service,
-    #         command_template=enable_disable_snmp.ENABLE_SNMP,
-    #         action_map=action_map,
-    #         error_map=error_map,
-    #     ).execute_command(snmp_community=snmp_community)
-
     def create_snmp_community(
-            self,
-            snmp_community,
-            is_read_only_community=True,
-            action_map=None,
-            error_map=None,
+        self,
+        snmp_community,
+        is_read_only_community=True,
+        action_map=None,
+        error_map=None,
     ):
         """Enable SNMP on the device.
 
@@ -152,14 +131,14 @@ class EnableDisableSnmpActions:
         ).execute_command(snmp_community=snmp_community, read_only=read_only)
 
     def create_snmp_v3_user(
-            self,
-            snmp_user,
-            snmp_password,
-            auth_protocol,
-            snmp_priv_key,
-            priv_protocol,
-            action_map=None,
-            error_map=None,
+        self,
+        snmp_user,
+        snmp_password,
+        auth_protocol,
+        snmp_priv_key,
+        priv_protocol,
+        action_map=None,
+        error_map=None,
     ):
         """Enable SNMP user on the device.
 
@@ -185,11 +164,12 @@ class EnableDisableSnmpActions:
         )
         return result
 
-    def enable_snmp_v3(self,
-                       snmp_user,
-                       action_map=None,
-                       error_map=None,
-                       ):
+    def enable_snmp_v3(
+        self,
+        snmp_user,
+        action_map=None,
+        error_map=None,
+    ):
         result = CommandTemplateExecutor(
             cli_service=self._cli_service,
             command_template=enable_disable_snmp.ENABLE_SNMP_USER,

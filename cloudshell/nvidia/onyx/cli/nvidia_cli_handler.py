@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 from cloudshell.cli.configurator import AbstractModeConfigurator
 from cloudshell.cli.service.cli import CLI
 from cloudshell.cli.service.cli_service_impl import CliServiceImpl
@@ -7,20 +6,17 @@ from cloudshell.cli.service.command_mode_helper import CommandModeHelper
 from cloudshell.cli.service.session_pool_manager import SessionPoolManager
 from cloudshell.cli.session.ssh_session import SSHSession
 from cloudshell.cli.session.telnet_session import TelnetSession
-
-from cloudshell.nvidia.onyx.nvidia_constants import DEFAULT_SESSION_POOL_TIMEOUT
 from cloudshell.nvidia.onyx.cli.nvidia_command_modes import (
     ConfigCommandMode,
     DefaultCommandMode,
     EnableCommandMode,
 )
+from cloudshell.nvidia.onyx.nvidia_constants import DEFAULT_SESSION_POOL_TIMEOUT
 from cloudshell.nvidia.onyx.sessions.console_ssh_session import ConsoleSSHSession
-from cloudshell.nvidia.onyx.sessions.console_telnet_session import (
-    ConsoleTelnetSession,
-)
+from cloudshell.nvidia.onyx.sessions.console_telnet_session import ConsoleTelnetSession
 
 
-class NvidiaCli(object):
+class NvidiaCli:
     def __init__(self, resource_config, pool_timeout=DEFAULT_SESSION_POOL_TIMEOUT):
         session_pool_size = int(resource_config.sessions_concurrency_limit)
         session_pool = SessionPoolManager(
@@ -41,7 +37,7 @@ class NvidiaCliHandler(AbstractModeConfigurator):
     )
 
     def __init__(self, cli, resource_config, logger):
-        super(NvidiaCliHandler, self).__init__(resource_config, logger, cli)
+        super().__init__(resource_config, logger, cli)
         self.modes = CommandModeHelper.create_command_mode(resource_config)
 
     @property

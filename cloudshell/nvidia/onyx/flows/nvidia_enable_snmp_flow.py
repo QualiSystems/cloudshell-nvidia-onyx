@@ -1,15 +1,11 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
-import re
-
-from cloudshell.snmp.snmp_parameters import SNMPV3Parameters
-
 from cloudshell.nvidia.onyx.command_actions.enable_disable_snmp_actions import (
     EnableDisableSnmpActions,
 )
+from cloudshell.snmp.snmp_parameters import SNMPV3Parameters
 
 
-class NvidiaEnableSnmpFlow(object):
+class NvidiaEnableSnmpFlow:
     DEFAULT_SNMP_VIEW = "quali_snmp_view"
     DEFAULT_SNMP_GROUP = "quali_snmp_group"
 
@@ -34,11 +30,11 @@ class NvidiaEnableSnmpFlow(object):
         ) as session:
             with session.enter_mode(self._cli_handler.config_mode) as config_session:
                 snmp_actions = EnableDisableSnmpActions(config_session, self._logger)
-                # if not snmp_actions.check_snmp_enabled(current_snmp_config):
-                #     snmp_actions.enable_snmp(snmp_parameters.snmp_community)
                 if "3" in snmp_parameters.version:
                     current_snmp_user = snmp_actions.get_current_snmp_user()
-                    if not snmp_actions.check_snmp_user_exists(current_snmp_user, snmp_parameters.snmp_user):
+                    if not snmp_actions.check_snmp_user_exists(
+                        current_snmp_user, snmp_parameters.snmp_user
+                    ):
                         snmp_parameters.validate()
 
                         priv_protocol = (
@@ -56,11 +52,11 @@ class NvidiaEnableSnmpFlow(object):
                         return
                 else:
                     current_snmp_config = snmp_actions.get_current_snmp_config()
-                    if not snmp_actions.check_snmp_community_exists(current_snmp_config,
-                                                                    snmp_parameters.snmp_community):
+                    if not snmp_actions.check_snmp_community_exists(
+                        current_snmp_config, snmp_parameters.snmp_community
+                    ):
                         snmp_actions.create_snmp_community(
-                            snmp_parameters.snmp_community,
-                            snmp_parameters.is_read_only
+                            snmp_parameters.snmp_community, snmp_parameters.is_read_only
                         )
                     else:
                         self._logger.debug(
@@ -77,7 +73,9 @@ class NvidiaEnableSnmpFlow(object):
                 )
                 if isinstance(snmp_parameters, SNMPV3Parameters):
                     updated_snmp_user = updated_snmp_actions.get_current_snmp_user()
-                    if not snmp_actions.check_snmp_user_exists(updated_snmp_user, snmp_parameters.snmp_user):
+                    if not snmp_actions.check_snmp_user_exists(
+                        updated_snmp_user, snmp_parameters.snmp_user
+                    ):
                         raise Exception(
                             self.__class__.__name__,
                             "Failed to create SNMP v3 Configuration."
@@ -87,8 +85,9 @@ class NvidiaEnableSnmpFlow(object):
                     updated_snmp_communities = (
                         updated_snmp_actions.get_current_snmp_config()
                     )
-                    if not snmp_actions.check_snmp_community_exists(updated_snmp_communities,
-                                                                    snmp_parameters.snmp_community):
+                    if not snmp_actions.check_snmp_community_exists(
+                        updated_snmp_communities, snmp_parameters.snmp_community
+                    ):
                         raise Exception(
                             self.__class__.__name__,
                             "Failed to create SNMP community."

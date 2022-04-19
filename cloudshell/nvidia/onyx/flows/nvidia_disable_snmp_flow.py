@@ -1,15 +1,11 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
-import re
-
-from cloudshell.snmp.snmp_parameters import SNMPV3Parameters
-
 from cloudshell.nvidia.onyx.command_actions.enable_disable_snmp_actions import (
     EnableDisableSnmpActions,
 )
+from cloudshell.snmp.snmp_parameters import SNMPV3Parameters
 
 
-class NvidiaDisableSnmpFlow(object):
+class NvidiaDisableSnmpFlow:
     def __init__(self, cli_handler, logger):
         """Enable snmp flow.
 
@@ -29,10 +25,10 @@ class NvidiaDisableSnmpFlow(object):
                 snmp_actions = EnableDisableSnmpActions(config_session, self._logger)
                 if "3" in snmp_parameters.version:
                     current_snmp_user = snmp_actions.get_current_snmp_user()
-                    if snmp_actions.check_snmp_user_exists(current_snmp_user, snmp_parameters.snmp_user):
-                        snmp_actions.remove_snmp_user(
-                            snmp_parameters.snmp_user
-                        )
+                    if snmp_actions.check_snmp_user_exists(
+                        current_snmp_user, snmp_parameters.snmp_user
+                    ):
+                        snmp_actions.remove_snmp_user(snmp_parameters.snmp_user)
                 else:
                     self._logger.debug("Start Disable SNMP")
                     snmp_actions.delete_snmp_community(snmp_parameters.snmp_community)
@@ -43,8 +39,9 @@ class NvidiaDisableSnmpFlow(object):
                 )
                 if isinstance(snmp_parameters, SNMPV3Parameters):
                     updated_snmp_user = updated_snmp_actions.get_current_snmp_user()
-                    if snmp_actions.check_snmp_user_exists(updated_snmp_user,
-                                                           snmp_parameters.snmp_user):
+                    if snmp_actions.check_snmp_user_exists(
+                        updated_snmp_user, snmp_parameters.snmp_user
+                    ):
                         raise Exception(
                             self.__class__.__name__,
                             "Failed to remove SNMP v3 Configuration."
@@ -54,8 +51,9 @@ class NvidiaDisableSnmpFlow(object):
                     updated_snmp_communities = (
                         updated_snmp_actions.get_current_snmp_config()
                     )
-                    if snmp_actions.check_snmp_community_exists(updated_snmp_communities,
-                                                                snmp_parameters.snmp_community):
+                    if snmp_actions.check_snmp_community_exists(
+                        updated_snmp_communities, snmp_parameters.snmp_community
+                    ):
                         raise Exception(
                             self.__class__.__name__,
                             "Failed to remove SNMP community."

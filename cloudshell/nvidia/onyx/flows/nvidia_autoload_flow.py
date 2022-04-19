@@ -1,12 +1,9 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 import os
 import re
 
 from cloudshell.shell.flows.autoload.basic_flow import AbstractAutoloadFlow
-
 from cloudshell.snmp.autoload.generic_snmp_autoload import GenericSNMPAutoload
-
 from cloudshell.snmp.autoload.service.port_mapper import PortMappingService
 from cloudshell.snmp.autoload.snmp_if_table import SnmpIfTable
 
@@ -15,7 +12,7 @@ class NvidiaSnmpAutoloadFlow(AbstractAutoloadFlow):
     MIBS_FOLDER = os.path.join(os.path.dirname(__file__), os.pardir, "mibs")
 
     def __init__(self, logger, snmp_handler):
-        super(NvidiaSnmpAutoloadFlow, self).__init__(logger)
+        super().__init__(logger)
         self._snmp_handler = snmp_handler
 
     def _autoload_flow(self, supported_os, resource_model):
@@ -31,9 +28,7 @@ class NvidiaSnmpAutoloadFlow(AbstractAutoloadFlow):
         )
         with self._snmp_handler.get_service() as snmp_service:
             snmp_service.add_mib_folder_path(self.MIBS_FOLDER)
-            snmp_service.load_mib_tables(
-                ["MELLANOX-PRODUCTS-MIB"]
-            )
+            snmp_service.load_mib_tables(["MELLANOX-PRODUCTS-MIB"])
             nvidia_snmp_autoload = GenericSNMPAutoload(snmp_service, self._logger)
             nvidia_snmp_autoload.entity_table_service.set_port_exclude_pattern(
                 r"stack|engine|management|"

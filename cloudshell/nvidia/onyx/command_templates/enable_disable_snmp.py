@@ -15,9 +15,7 @@ SHOW_SNMP_COMMUNITY = CommandTemplate(
     "show running-config | include snmp-server community", error_map=ERROR_MAP
 )
 
-SHOW_SNMP_CONFIG = CommandTemplate(
-    "show snmp", error_map=ERROR_MAP
-)
+SHOW_SNMP_CONFIG = CommandTemplate("show snmp", error_map=ERROR_MAP)
 
 SHOW_SNMP_USER = CommandTemplate("show snmp user", error_map=ERROR_MAP)
 

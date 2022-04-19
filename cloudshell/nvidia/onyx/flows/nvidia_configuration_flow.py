@@ -1,9 +1,7 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
+from cloudshell.nvidia.onyx.command_actions.system_actions import SystemActions
 from cloudshell.nvidia.onyx.helpers.exceptions import NvidiaSaveRestoreException
 from cloudshell.shell.flows.configuration.basic_flow import AbstractConfigurationFlow
-
-from cloudshell.nvidia.onyx.command_actions.system_actions import SystemActions
 from cloudshell.shell.flows.utils.networking_utils import UrlParser
 
 
@@ -14,7 +12,7 @@ class NvidiaConfigurationFlow(AbstractConfigurationFlow):
     DEFAULT_CONFIG_NAME = ""
 
     def __init__(self, cli_handler, resource_config, logger):
-        super(NvidiaConfigurationFlow, self).__init__(logger, resource_config)
+        super().__init__(logger, resource_config)
         self._cli_handler = cli_handler
 
     @property
@@ -90,7 +88,9 @@ class NvidiaConfigurationFlow(AbstractConfigurationFlow):
                     f"Available protocols: {avail_protocols}"
                 )
             if "startup" in configuration_type:
-                raise NvidiaSaveRestoreException("Nvidia Onyx doesn't have startup configuration")
+                raise NvidiaSaveRestoreException(
+                    "Nvidia Onyx doesn't have startup configuration"
+                )
 
             restore_action.download(path)
             if restore_method == "override":
