@@ -1,15 +1,13 @@
 from unittest import TestCase
+from unittest.mock import MagicMock, Mock, patch
 
 from cloudshell.cli.service.cli import CLI
-
 from cloudshell.nvidia.onyx.cli.nvidia_cli_handler import NvidiaCliHandler
 from cloudshell.nvidia.onyx.cli.nvidia_command_modes import (
     ConfigCommandMode,
     DefaultCommandMode,
     EnableCommandMode,
 )
-
-from unittest.mock import MagicMock, Mock, patch
 
 
 class TestCiscoSystemActions(TestCase):
