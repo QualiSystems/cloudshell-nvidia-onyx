@@ -35,8 +35,8 @@ class EnableDisableSnmpActions:
         """
         escaped_snmp_community = re.escape(snmp_community)
         if re.search(
-            fr"(Read-only\s+communities\S*(\s+\S+)*\s*\b{escaped_snmp_community}\b|"
-            fr"Read-write\s+communities\S*(\s+\S+)*\s*\b{escaped_snmp_community}\b)",
+            rf"(Read-only\s+communities\S*(\s+\S+)*\s*\b{escaped_snmp_community}\b|"
+            rf"Read-write\s+communities\S*(\s+\S+)*\s*\b{escaped_snmp_community}\b)",
             snmp_config,
         ):
             return True
@@ -52,7 +52,7 @@ class EnableDisableSnmpActions:
         :rtype: bool
         """
         if re.search(
-            fr"User\s+name\s+\b{snmp_user}\b",
+            rf"User\s+name\s+\b{snmp_user}\b",
             snmp_config,
         ):
             return True
