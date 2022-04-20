@@ -35,6 +35,22 @@ class SystemActions:
         ).execute_command(filename=filename)
         return output
 
+    def delete_config(self, filename, action_map=None, error_map=None):
+        """Delete file on the device.
+
+        :param path: path to file
+        :param action_map: actions will be taken during executing commands,
+            i.e. handles yes/no prompts
+        :param error_map: errors will be raised during executing commands,
+            i.e. handles Invalid Commands errors
+        """
+        CommandTemplateExecutor(
+            self._cli_service,
+            configuration.DELETE_CONFIG,
+            action_map=action_map,
+            error_map=error_map,
+        ).execute_command(filename=filename)
+
     def generate_txt_config(self, filename, action_map=None, error_map=None):
         output = CommandTemplateExecutor(
             self._cli_service,
@@ -77,6 +93,7 @@ class SystemActions:
         """
         if not vrf:
             vrf = None
+        error_match = None
 
         output = CommandTemplateExecutor(
             self._cli_service,
@@ -86,26 +103,21 @@ class SystemActions:
             timeout=timeout,
         ).execute_command(src=source, dst=destination, vrf=vrf)
 
-        copy_ok_pattern = (
-            r"\d+ bytes copied|copied.*[\[\(].*[1-9][0-9]* bytes.*[\)\]]|"
-            r"[Cc]opy complete|[\(\[]OK[\]\)]"
+        match_error = re.search(
+            r"%.*|TFTP put operation failed.*|sysmgr.*not supported.*\n",
+            output,
+            re.IGNORECASE,
         )
-        status_match = re.search(copy_ok_pattern, output, re.IGNORECASE)
-        if not status_match:
-            match_error = re.search(
-                r"%.*|TFTP put operation failed.*|sysmgr.*not supported.*\n",
-                output,
-                re.IGNORECASE,
-            )
-            message = "Upload Command failed."
-            if match_error:
+        message = "Upload Command failed. "
+        if match_error:
+            self._logger.error(message)
+            message += re.sub(r"^%\s+|\\n|\s*at.*marker.*", "", match_error.group())
+        else:
+            error_match = re.search(r"error.*\n|fail.*\n", output, re.IGNORECASE)
+            if error_match:
                 self._logger.error(message)
-                message += re.sub(r"^%\s+|\\n|\s*at.*marker.*", "", match_error.group())
-            else:
-                error_match = re.search(r"error.*\n|fail.*\n", output, re.IGNORECASE)
-                if error_match:
-                    self._logger.error(message)
-                    message += error_match.group()
+                message += error_match.group()
+        if match_error or error_match:
             raise Exception(message)
 
     def download(self, path, action_map=None, error_map=None):

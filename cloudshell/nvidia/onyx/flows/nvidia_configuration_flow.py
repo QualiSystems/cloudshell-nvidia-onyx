@@ -11,6 +11,7 @@ class NvidiaConfigurationFlow(AbstractConfigurationFlow):
     STARTUP_LOCATION = "nvram:startup_config"
     REMOTE_PROTOCOLS = ["ftp", "tftp", "scp"]
     DEFAULT_CONFIG_NAME = ""
+    ACTIVE_CONFIG_NAME = "active"
 
     def __init__(self, cli_handler, resource_config, logger):
         super().__init__(logger, resource_config)
@@ -49,12 +50,10 @@ class NvidiaConfigurationFlow(AbstractConfigurationFlow):
         with self._cli_handler.get_cli_service(
             self._cli_handler.config_mode
         ) as config_session:
-            filename = url.get("filename", self.DEFAULT_CONFIG_NAME)
             save_action = SystemActions(config_session, self._logger)
-            save_action.save_config(filename)
             if scheme:
                 save_action.upload(
-                    filename,
+                    self.ACTIVE_CONFIG_NAME,
                     folder_path,
                     vrf=vrf_management_name,
                 )
@@ -99,3 +98,5 @@ class NvidiaConfigurationFlow(AbstractConfigurationFlow):
             else:
                 restore_action.generate_txt_config(filename=filename)
                 restore_action.apply_txt_config(filename=filename)
+                restore_action.delete_config(filename)
+                restore_action.delete_config(f"{filename}.txt")

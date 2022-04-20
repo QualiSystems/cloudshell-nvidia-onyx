@@ -6,6 +6,8 @@ from cloudshell.cli.command_template.command_template import CommandTemplate
 
 SAVE_CONFIG = CommandTemplate("configuration write to {filename} no-switch")
 
+DELETE_CONFIG = CommandTemplate("configuration delete {filename}")
+
 GENERATE_TXT_CONFIG = CommandTemplate(
     "configuration text generate file {filename} save {filename}.txt"
 )  # noqa: E501
