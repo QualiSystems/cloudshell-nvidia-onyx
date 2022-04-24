@@ -76,7 +76,7 @@ class SystemActions:
         vrf=None,
         action_map=None,
         error_map=None,
-        timeout=240,
+        timeout=320,
     ):
         """Copy file from device to tftp or vice versa.
 
@@ -120,7 +120,7 @@ class SystemActions:
         if match_error or error_match:
             raise Exception(message)
 
-    def download(self, path, timeout=240, action_map=None, error_map=None):
+    def download(self, path, timeout=320, action_map=None, error_map=None):
         """Delete file on the device.
 
         :param timeout:
