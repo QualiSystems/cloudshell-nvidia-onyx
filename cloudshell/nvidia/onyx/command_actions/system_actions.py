@@ -120,9 +120,10 @@ class SystemActions:
         if match_error or error_match:
             raise Exception(message)
 
-    def download(self, path, action_map=None, error_map=None):
+    def download(self, path, timeout=240, action_map=None, error_map=None):
         """Delete file on the device.
 
+        :param timeout:
         :param path: path to file
         :param action_map: actions will be taken during executing commands,
             i.e. handles yes/no prompts
@@ -134,6 +135,7 @@ class SystemActions:
             configuration.DOWNLOAD,
             action_map=action_map,
             error_map=error_map,
+            timeout=timeout,
         ).execute_command(path=path)
 
     def override_running(
