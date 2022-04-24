@@ -76,7 +76,7 @@ class SystemActions:
         vrf=None,
         action_map=None,
         error_map=None,
-        timeout=180,
+        timeout=240,
     ):
         """Copy file from device to tftp or vice versa.
 
